@@ -12,6 +12,12 @@
             formControlName="signInUserAccount"
             placeholder="{{ 'signInPage.userAccount' | translate }}"
           >
+            <mat-error
+              class="validation-error"
+              *ngIf="signInUserAccount.hasError('required')"
+            >
+              {{'validationError.required'|translate}}
+            </mat-error>
         </mat-form-field>
         <mat-form-field class="form-field" hideRequiredMarker>
           <input
@@ -20,6 +26,12 @@
             formControlName="signInUserPassword"
             placeholder="{{ 'signInPage.userPassword' | translate }}"
           >
+            <mat-error
+              class="validation-error"
+              *ngIf="signInUserPassword.hasError('required')"
+            >
+              {{'validationError.required'|translate}}
+            </mat-error>
         </mat-form-field>
       </form>
       <button
