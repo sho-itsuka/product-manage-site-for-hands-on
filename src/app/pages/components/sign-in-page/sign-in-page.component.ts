@@ -1,14 +1,25 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-sign-in-page',
+  selector:    'app-sign-in-page',
   templateUrl: './sign-in-page.component.html',
-  styleUrls: ['./sign-in-page.component.scss']
+  styleUrls:  ['./sign-in-page.component.scss']
 })
 export class SignInPageComponent implements OnInit{
+  signInUserAccount  = new FormControl<string>('', [Validators.required]);
+  signInUserPassword = new FormControl<string>('', [Validators.required]);
 
-  constructor(public translateService: TranslateService) { }
+  signInForm = this.formBuilder.group({
+    signInUserAccount:  this.signInUserAccount,
+    signInUserPassword: this.signInUserPassword
+  });
+
+  constructor(
+    public  translateService: TranslateService,
+    private formBuilder:      FormBuilder
+    ) { }
 
   /**
   * on init
