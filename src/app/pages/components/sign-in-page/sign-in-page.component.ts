@@ -7,7 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './sign-in-page.component.html',
   styleUrls:  ['./sign-in-page.component.scss']
 })
-export class SignInPageComponent implements OnInit{
+export class SignInPageComponent implements OnInit {
   signInUserAccount  = new FormControl<string>('', [Validators.required]);
   signInUserPassword = new FormControl<string>('', [Validators.required]);
 
@@ -17,8 +17,8 @@ export class SignInPageComponent implements OnInit{
   });
 
   constructor(
-    public  translateService: TranslateService,
-    private formBuilder:      FormBuilder
+    private formBuilder:      FormBuilder,
+    public  translateService: TranslateService
     ) { }
 
   /**
