@@ -1,6 +1,10 @@
+import { RoutingService } from 'src/app/core/services/routing.service';
+
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
+
+import { AccountService } from '../../services/account.service';
 
 @Component({
   selector:    'app-sign-in-page',
@@ -17,6 +21,8 @@ export class SignInPageComponent implements OnInit {
   });
 
   constructor(
+    private accountService: AccountService,
+    private routingService: RoutingService,
     private formBuilder:      FormBuilder,
     public  translateService: TranslateService
     ) { }
