@@ -78,6 +78,8 @@ export class SignInPageComponent implements OnInit {
     const signInResponseDto: Observable<SignInResponseDto> = this.accountService.signIn(signInRequestDto);
     signInResponseDto.subscribe(responseDto => {
       if (responseDto != null) {
+        // Sets account information.
+        this.setUpUserAccount(responseDto);
         // Moves to the Product listing page.
         this.routingService.navigate(UrlConst.PATH_PRODUCT_LISTING);
       }
