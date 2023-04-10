@@ -4,9 +4,9 @@ import { RoutingService } from './core/services/routing.service';
 import { UrlConst } from './pages/constants/url-const';
 
 @Component({
-  selector: 'app-root',
+  selector:    'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls:  ['./app.component.scss']
 })
 export class AppComponent {
   title = 'product-manage-site-for-hands-on';
