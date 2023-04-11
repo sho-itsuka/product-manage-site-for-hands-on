@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
+import { MaterialModule } from '../material/material.module';
 import { ErrorMessagingComponent } from './components/error-messaging/error-messaging.component';
 import { LoadingComponent } from './components/loading/loading.component';
 
@@ -10,7 +11,8 @@ import { LoadingComponent } from './components/loading/loading.component';
     ErrorMessagingComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    MaterialModule
   ],
   exports: [
     LoadingComponent,
