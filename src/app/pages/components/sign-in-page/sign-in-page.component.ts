@@ -104,14 +104,6 @@ export class SignInPageComponent implements OnInit {
     user.userTimezoneOffset = responseDto.userTimezoneOffset;
     user.userCurrency       = responseDto.userCurrency;
     this.accountService.setUser(user);
-
-    console.log('SignInPageComponent #setUpUserAccount() user.userAccount:'        + user.userAccount);
-    console.log('SignInPageComponent #setUpUserAccount() user.userName:'           + user.userName);
-    console.log('SignInPageComponent #setUpUserAccount() user.userLocale:'         + user.userLocale);
-    console.log('SignInPageComponent #setUpUserAccount() user.userLanguage:'       + user.userLanguage);
-    console.log('SignInPageComponent #setUpUserAccount() user.userTimezone:'       + user.userTimezone);
-    console.log('SignInPageComponent #setUpUserAccount() user.userTimezoneOffset:' + user.userTimezoneOffset);
-    console.log('SignInPageComponent #setUpUserAccount() user.userCurrency:'       + user.userCurrency);
   }
 
 }
