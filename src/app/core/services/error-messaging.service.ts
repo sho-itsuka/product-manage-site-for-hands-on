@@ -35,26 +35,35 @@ export class ErrorMessagingService {
    */
   setUpPageErrorMessageFromResponse(error: any) {
     switch (error.status) {
+      // 400エラー
       case 400:
         this.setMessageProperty('errMessage.http.badRequest');
         break;
+      // 401エラー
       case 401:
         this.setMessageProperty('errMessage.http.unAuthorized');
         break;
+      // 404エラー
       case 404:
         this.setMessageProperty('errMessage.http.notFound');
         break;
+      // 500エラー
       case 500:
+        // 同一のキー情報が既に登録されている場合
         if ('Duplicated key.' === error.error.message) {
           this.setMessageProperty('errMessage.http.duplicateKeyException');
+        // 他ユーザーが同一データを変更した場合
         } else if ('Exclusive error occurred.' === error.error.message) {
           this.setMessageProperty('errMessage.http.exclusiveProcessingException');
+        // データが存在しない場合
         } else if ('Data not found.' === error.error.message) {
           this.setMessageProperty('errMessage.http.datNotFoundException');
+        // サーバーエラー
         } else {
           this.setMessageProperty('errMessage.http.internalServerError');
         }
         break;
+      // サーバー通信エラー
       default:
         this.setMessageProperty('errMessage.http.GenericError');
         break;
