@@ -23,6 +23,13 @@ export class ErrorMessagingService {
   }
 
   /**
+   * Clear message property
+   */
+  clearMessageProperty(): void {
+    this.messageProperty = '';
+  }
+
+  /**
    * Setups page error message from response
    * @param error error from api response
    */
