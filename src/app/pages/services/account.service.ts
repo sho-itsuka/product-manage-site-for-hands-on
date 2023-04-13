@@ -4,6 +4,7 @@ import { SessionStorageService } from 'src/app/core/services/session-storage.ser
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
+import { ErrorMessagingService } from '../../core/services/error-messaging.service';
 import { ApiConst } from '../constants/api-const';
 import { AppConst } from '../constants/app-const';
 import { SignInRequestDto } from '../models/dtos/requests/sign-in-request-dto';
@@ -14,9 +15,9 @@ import { User } from '../models/user';
   providedIn: 'root'
 })
 export class AccountService {
-
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private errorMessagingService: ErrorMessagingService
   ) { }
 
   /**
@@ -34,7 +35,8 @@ export class AccountService {
       .post<SignInResponseDto>(webApiUrl, signInRequestDto, { headers })
       .pipe(
         catchError((error) => {
-          return of(null as SignInResponseDto);
+          this.errorMessagingService.setUpPageErrorMessageFromResponse(error);
+          return of (null as SignInResponseDto);
         })
       );
   }
