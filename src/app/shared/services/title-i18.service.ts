@@ -15,9 +15,9 @@ export class TitleI18Service {
   * Sets title
   * @param screenName Name of screen
   */
-public setTitle(screenName: string) {
-  const titleSystem = this.translateService.instant('title.system');
-  const titleSub    = this.translateService.instant('title.' + screenName);
-  this.title.setTitle(titleSystem + titleSub);
-}
+  public setTitle(screenName: string) {
+    const titleSystem = this.translateService.instant('title.system');
+    const titleSub    = this.translateService.instant('title.' + screenName);
+    this.title.setTitle(titleSystem + titleSub);
+  }
 }
