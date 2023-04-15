@@ -7,6 +7,9 @@ import { Injectable } from '@angular/core';
 export class XhrInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    return next.handle(request);
-  }
-}
+    const xhr = request.clone({
+      headers: request.headers.set('X-Requested-With', 'XMLHttpRequest')
+    });
+    return next.handle(xhr);
+  };
+};
