@@ -26,9 +26,13 @@ import { XhrInterceptor } from './interceptors/xhr.interceptor';
       multi:    true
     }
   ],
+  entryComponents: [
+    YesNoDialogComponent
+  ],
   exports: [
     LoadingComponent,
-    ErrorMessagingComponent
+    ErrorMessagingComponent,
+    YesNoDialogComponent
   ]
 })
 export class CoreModule { }
