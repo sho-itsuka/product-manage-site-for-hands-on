@@ -6,12 +6,14 @@ import { MaterialModule } from '../material/material.module';
 import { NgxTranslateModule } from '../ngx-translate/ngx-translate.module';
 import { ErrorMessagingComponent } from './components/error-messaging/error-messaging.component';
 import { LoadingComponent } from './components/loading/loading.component';
+import { YesNoDialogComponent } from './components/yes-no-dialog/yes-no-dialog.component';
 import { XhrInterceptor } from './interceptors/xhr.interceptor';
 
 @NgModule({
   declarations: [
     LoadingComponent,
-    ErrorMessagingComponent
+    ErrorMessagingComponent,
+    YesNoDialogComponent
   ],
   imports: [
     CommonModule,
