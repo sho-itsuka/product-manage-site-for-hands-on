@@ -9,8 +9,8 @@
         <div class="search-condition-wrapper">
           <mat-form-field class="form-field">
             <input
-              id="product-name"
               matInput
+              id="product-name"
               type="text"
               formControlName="productName"
               placeholder="{{ 'productListingPage.productName' | translate }}"
@@ -22,8 +22,8 @@
         <div class="search-condition-wrapper">
           <mat-form-field class="form-field">
             <input
-              id="product-code"
               matInput
+              id="product-code"
               type="text"
               formControlName="productCode"
               placeholder="{{ 'productListingPage.productCode' | translate }}"
@@ -105,9 +105,9 @@
   </div>
   <div class="search-results-wrapper">
     <table
+      mat-table
       id="results"
       class="search-results"
-      mat-table
       *ngIf="resultsLength>0"
       [dataSource]="productSearchResponseDtos"
     >
