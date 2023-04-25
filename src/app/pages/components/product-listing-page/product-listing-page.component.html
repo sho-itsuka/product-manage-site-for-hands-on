@@ -1,202 +1,178 @@
 <section class="listing-page-wrapper">
   <div class="listing-title-wrapper">
-    <h1>商品一覧</h1>
+    <h1 id="title">{{ 'productListingPage.title' | translate }}</h1>
   </div>
+  <app-error-messaging></app-error-messaging>
   <div class="search-criteria-wrapper">
-    <form>
+    <form [formGroup]="searchForm">
       <div class="search-criteria">
         <div class="search-condition-wrapper">
-          <input id="product-name" type="text" placeholder="商品名">
+          <mat-form-field class="form-field">
+            <input
+              id="product-name"
+              matInput
+              type="text"
+              formControlName="productName"
+              placeholder="{{ 'productListingPage.productName' | translate }}"
+              maxlength=50
+              matTooltip="{{ 'tooltip.searchCriteria.prefixMatching' | translate }}"
+            >
+          </mat-form-field>
         </div>
         <div class="search-condition-wrapper">
-          <input id="product-code" type="text" placeholder="商品コード">
+          <mat-form-field class="form-field">
+            <input
+              id="product-code"
+              matInput
+              type="text"
+              formControlName="productCode"
+              placeholder="{{ 'productListingPage.productCode' | translate }}"
+              maxlength=20
+              matTooltip="{{ 'tooltip.searchCriteria.prefixMatching' | translate }}"
+            >
+          </mat-form-field>
         </div>
         <div class="search-condition-wrapper">
-          <select id="product-genre-label" value="">
-            <option value='' disabled selected style='display:none;'>ジャンル</option>
-            <option value="1">靴・スニーカー</option>
-            <option value="2">トップス</option>
-            <option value="3">バッグ</option>
-          </select>
+          <mat-form-field class="form-field">
+            <mat-label id="product-genre-label">{{ 'productListingPage.productGenre' | translate }}</mat-label>
+            <mat-select
+              id="product-genre"
+              formControlName="productGenre"
+              matTooltip="{{ 'tooltip.searchCriteria.pullDown' | translate }}"
+            >
+              <mat-option
+                class="product-genre-option"
+                (click)="unselectProductGenre()"
+              >
+              </mat-option>
+              <mat-option
+                class="product-genre-option"
+                *ngFor="let code of genres"
+                [value]="code">
+                {{ 'genre.' + code | translate }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
         <div class="search-condition-wrapper">
-            <input id="end-of-sale" type="checkbox" value="1">販売終了
+          <mat-checkbox
+            id="end-of-sale"
+            formControlName="endOfSale"
+            matTooltip="{{ 'productListingPage.tooltip.endOfSale' | translate }}">
+            {{ 'productListingPage.endOfSale' | translate }}
+          </mat-checkbox>
         </div>
       </div>
     </form>
   </div>
   <div class="search-functions-wrapper">
     <div class="search-functions-paginator">
-      -- Paginator area --
+      <mat-paginator
+        [length]="resultsLength"
+        [pageSize]="initialPageSize"
+        [pageSizeOptions]="[10, 50, 100]">
+      </mat-paginator>
     </div>
     <div class="search-functions-buttons">
-      <a href="#" id="new-button" class="button">新規</a>
-      <a href="#" id="clear-button" class="button">クリア</a>
-      <a href="#" id="search-button" class="button active">検索</a>
+      <button
+        mat-flat-button
+        id="new-button"
+        class="flat-button"
+        (click)="clickNewButton()"
+        matTooltip="{{ 'productListingPage.tooltip.newBtn' | translate }}"
+      >
+        {{ 'productListingPage.newButton' | translate }}
+      </button>
+      <button
+        mat-flat-button
+        id="clear-button"
+        class="flat-button"
+        (click)="clickClearButton()"
+        matTooltip="{{ 'tooltip.searchBtn.clearBtn' | translate }}"
+      >
+        {{ 'productListingPage.clearButton' | translate }}
+      </button>
+      <button
+        mat-flat-button
+        id="search-button"
+        class="flat-button active"
+        (click)="clickSearchButton()"
+        matTooltip="{{ 'tooltip.searchBtn.searchBtn' | translate }}"
+      >
+        {{ 'productListingPage.searchButton' | translate }}
+      </button>
     </div>
   </div>
   <div class="search-results-wrapper">
-    <table class="search-results">
-      <thead>
-        <tr>
-          <th class="width-no">No.</th>
-          <th class="width-product-name">商品名</th>
-          <th class="width-product-code">商品コード</th>
-          <th class="width-product-genre">ジャンル</th>
-          <th class="width-product-image">イメージ</th>
-          <th class="width-product-size">サイズ・規格</th>
-          <th class="width-product-color">色</th>
-          <th class="width-product-unit-price">単価</th>
-          <th class="width-product-stock">在庫数</th>
-          <th class="width-product-end">販売終了</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="width-no">1</td>
-          <td class="width-product-name product-name">花柄のスニーカー</td>
-          <td class="width-product-code"><a href="ProductRegisteringPage.html">ABCD123</a></td>
-          <td class="width-product-genre">靴・スニーカー</td>
-          <td class="width-product-image"><img src="img/ABCD123.png" /></td>
-          <td class="width-product-size product-size">24,25,26,27cm</td>
-          <td class="width-product-color">花柄</td>
-          <td class="width-product-unit-price product-unit-price">2,500</td>
-          <td class="width-product-stock product-stock">500</td>
-          <td class="width-product-end">-</td>
-        </tr>
-        <tr>
-          <td class="width-no">2</td>
-          <td class="width-product-name product-name">男性革靴</td>
-          <td class="width-product-code"><a href="ProductRegisteringPage.html">ABCD456</a></td>
-          <td class="width-product-genre">靴・スニーカー</td>
-          <td class="width-product-image"><img src="img/ABCD456.png" /></td>
-          <td class="width-product-size product-size">25,26,27,28cm</td>
-          <td class="width-product-color">茶</td>
-          <td class="width-product-unit-price product-unit-price">12,800</td>
-          <td class="width-product-stock product-stock">100</td>
-          <td class="width-product-end">-</td>
-        </tr>
-        <tr>
-          <td class="width-no">3</td>
-          <td class="width-product-name product-name">カバン</td>
-          <td class="width-product-code"><a href="ProductRegisteringPage.html">XYZ0123</a></td>
-          <td class="width-product-genre">バッグ</td>
-          <td class="width-product-image"><img src="img/XYZ0123.png" /></td>
-          <td class="width-product-size product-size">フリー</td>
-          <td class="width-product-color">茶</td>
-          <td class="width-product-unit-price product-unit-price">8,800</td>
-          <td class="width-product-stock product-stock">200</td>
-          <td class="width-product-end">-</td>
-        </tr>
-        <tr>
-          <td class="width-no">4</td>
-          <td class="width-product-name product-name">セーター</td>
-          <td class="width-product-code"><a href="ProductRegisteringPage.html">ABCD654</a></td>
-          <td class="width-product-genre">トップス</td>
-          <td class="width-product-image"><img src="img/ABCD654.png" /></td>
-          <td class="width-product-size product-size">S/M/L</td>
-          <td class="width-product-color">グレー</td>
-          <td class="width-product-unit-price product-unit-price">7,800</td>
-          <td class="width-product-stock product-stock">300</td>
-          <td class="width-product-end">-</td>
-        </tr>
-        <tr>
-          <td class="width-no">5</td>
-          <td class="width-product-name product-name">ビジネスバッグ</td>
-          <td class="width-product-code"><a href="ProductRegisteringPage.html">XYZ3210</a></td>
-          <td class="width-product-genre">バッグ</td>
-          <td class="width-product-image"><img src="img/XYZ3210.png" /></td>
-          <td class="width-product-size product-size">30×70cm</td>
-          <td class="width-product-color">黒/茶</td>
-          <td class="width-product-unit-price product-unit-price">24,000</td>
-          <td class="width-product-stock product-stock">400</td>
-          <td class="width-product-end">-</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-      </tbody>
+    <table
+      id="results"
+      class="search-results"
+      mat-table
+      *ngIf="resultsLength>0"
+      [dataSource]="productSearchResponseDtos"
+    >
+      <ng-container matColumnDef="no">
+        <th class="width-no" mat-header-cell *matHeaderCellDef>
+          {{ 'productListingPage.no' | translate }}
+        </th>
+        <td class="width-no" mat-cell *matCellDef="let element"> {{element.no}} </td>
+      </ng-container>
+      <ng-container matColumnDef="productName">
+        <th class="width-product-name" mat-header-cell *matHeaderCellDef>
+          {{ 'productListingPage.productName' | translate }}
+        </th>
+        <td class="width-product-name" mat-cell *matCellDef="let element">
+          {{element.productName}} </td>
+      </ng-container>
+      <ng-container matColumnDef="productCode">
+        <th class="width-product-code" mat-header-cell *matHeaderCellDef>
+          {{ 'productListingPage.productCode' | translate }}</th>
+        <td class="width-product-code" mat-cell *matCellDef="let element">
+          {{element.productCode}} </td>
+      </ng-container>
+      <ng-container matColumnDef="productGenre">
+        <th class="width-product-genre" mat-header-cell *matHeaderCellDef>
+          {{ 'productListingPage.productGenre' | translate }}</th>
+        <td class="width-product-genre" mat-cell *matCellDef="let element">
+          {{ 'genre.' + element.productGenre | translate }} </td>
+      </ng-container>
+      <ng-container matColumnDef="productImage">
+        <th class="width-product-image" mat-header-cell *matHeaderCellDef>
+          {{ 'productListingPage.productImage' | translate }}</th>
+        <td class="width-product-image" mat-cell *matCellDef="let element"><img src={{element.productImageUrl}} /></td>
+      </ng-container>
+      <ng-container matColumnDef="productSizeStandard">
+        <th class="width-product-size" mat-header-cell *matHeaderCellDef>
+          {{ 'productListingPage.productSizeStandard' | translate }}</th>
+        <td class="width-product-size" mat-cell *matCellDef="let element">
+          {{element.productSizeStandard}} </td>
+      </ng-container>
+      <ng-container matColumnDef="productColor">
+        <th class="width-product-color" mat-header-cell *matHeaderCellDef>
+          {{ 'productListingPage.productColor' | translate }}</th>
+        <td class="width-product-color" mat-cell *matCellDef="let element">
+          {{element.productColor}} </td>
+      </ng-container>
+      <ng-container matColumnDef="productUnitPrice">
+        <th class="width-product-unit-price" mat-header-cell *matHeaderCellDef>
+          {{ 'productListingPage.productUnitPrice' | translate }}</th>
+        <td class="width-product-unit-price" mat-cell *matCellDef="let element">
+          {{element.productUnitPrice }}</td>
+      </ng-container>
+      <ng-container matColumnDef="productStockQuantity">
+        <th class="width-product-stock" mat-header-cell *matHeaderCellDef>
+          {{ 'productListingPage.productStockQuantity' | translate }}</th>
+        <td class="width-product-stock" mat-cell *matCellDef="let element">
+          {{element.productStockQuantity }} </td>
+      </ng-container>
+      <ng-container matColumnDef="endOfSale">
+        <th class="width-endOfSale" mat-header-cell *matHeaderCellDef>
+          {{ 'productListingPage.endOfSale' | translate }}</th>
+        <td class="width-endOfSale" mat-cell *matCellDef="let element">
+          {{ 'productListingPage.endOfSaleValue.' + element.endOfSale | translate}} </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayColumns;" (click)="clickListRow(row)"></tr>
     </table>
   </div>
 </section>
