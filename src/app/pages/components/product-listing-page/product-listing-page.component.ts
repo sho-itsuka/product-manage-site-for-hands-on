@@ -88,27 +88,31 @@ export class ProductListingPageComponent implements OnInit, AfterViewChecked {
   /**
    * Clicks clear button
    */
-  // clickClearButton(): void {
-  // }
+  clickClearButton(): void {
+    return
+  }
 
   /**
    * Clicks search button
    */
-  // clickSearchButton(): void {
-  // }
+  clickSearchButton(): void {
+    return
+  }
 
   /**
    * Clicks list row
    * @param productSearchResponseDto Product search response dto
    */
-  // clickListRow(productSearchResponseDto: ProductSearchResponseDto): void {
-  // }
+  clickListRow(productSearchResponseDto: ProductSearchResponseDto): void {
+    return
+  }
 
   /**
    * Unselects product genre
    */
-  // unselectProductGenre(): void {
-  // }
+  unselectProductGenre(): void {
+    return
+  }
 
   // --------------------------------------------------------------------------------
   // private methods
