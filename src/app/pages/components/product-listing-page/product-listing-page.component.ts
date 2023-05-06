@@ -10,6 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { UrlConst } from '../../constants/url-const';
 import { ProductSearchResponseDto } from '../../models/dtos/responses/product-search-response-dto';
 import { AccountService } from '../../services/account.service';
+import { ProductService } from '../../services/product.service';
 
 @Component({
   selector:    'app-product-listing-page',
@@ -18,12 +19,13 @@ import { AccountService } from '../../services/account.service';
 })
 export class ProductListingPageComponent implements OnInit, AfterViewChecked {
   constructor(
-    private accountService:  AccountService,
-    private formBuilder:     FormBuilder,
-    private loadingService:  LoadingService,
-    private routingService:  RoutingService,
-    private titleI18Service: TitleI18Service,
-    public translateService: TranslateService
+    private accountService:   AccountService,
+    private formBuilder:      FormBuilder,
+    private loadingService:   LoadingService,
+    private routingService:   RoutingService,
+    private titleI18Service:  TitleI18Service,
+    private productService:   ProductService,
+    public  translateService: TranslateService
   ) {}
 
   productName  = new FormControl<string>('', []);
@@ -65,9 +67,10 @@ export class ProductListingPageComponent implements OnInit, AfterViewChecked {
   initialPageSize = 50;
 
   /**
-   * on init
-   */
+  * on init
+  */
   ngOnInit(): void {
+    this.loadData();
     this.setupLanguage();
   }
 
@@ -121,5 +124,10 @@ export class ProductListingPageComponent implements OnInit, AfterViewChecked {
     const lang = this.accountService.getUser().userLanguage;
     this.translateService.setDefaultLang(lang);
     this.translateService.use(lang);
+  }
+
+  private loadData(): void {
+    this.productService.getGenres()
+      .subscribe((data) => (this.genres = data));
   }
 }
