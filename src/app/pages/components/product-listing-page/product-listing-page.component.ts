@@ -1,3 +1,4 @@
+import { map, merge, startWith, switchMap } from 'rxjs';
 import { LoadingService } from 'src/app/core/services/loading.service';
 import { RoutingService } from 'src/app/core/services/routing.service';
 import { TitleI18Service } from 'src/app/shared/services/title-i18.service';
@@ -8,6 +9,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { TranslateService } from '@ngx-translate/core';
 
 import { UrlConst } from '../../constants/url-const';
+import {
+    ProductListingSearchParamsDto
+} from '../../models/dtos/requests/product-listing-search-params-dto';
 import { ProductSearchResponseDto } from '../../models/dtos/responses/product-search-response-dto';
 import { AccountService } from '../../services/account.service';
 import { ProductService } from '../../services/product.service';
@@ -92,14 +96,34 @@ export class ProductListingPageComponent implements OnInit, AfterViewChecked {
    * Clicks clear button
    */
   clickClearButton(): void {
-    return
+    this.clearSearchConditions();
+    this.clearSearchResultList();
   }
 
   /**
    * Clicks search button
    */
   clickSearchButton(): void {
-    return
+    merge(this.paginator.page)
+      .pipe(
+        startWith({}),
+        switchMap(() => {
+          this.loadingService.startLoading();
+          const productListingSearchParamsDto: ProductListingSearchParamsDto = this.createSearchParamsDto();
+
+          return this.productService.getProductList(this.createHttpParams(productListingSearchParamsDto));
+        }),
+        map((data) => {
+          this.loadingService.stopLoading();
+          this.resultsLength = data.resultsLength;
+          if (this.paginator.pageIndex !== data.pageIndex) {
+            this.paginator.pageIndex = data.pageIndex;
+          }
+
+          return data.productSearchResponseDtos;
+        })
+      )
+      .subscribe((data) => (this.productSearchResponseDtos = data));
   }
 
   /**
@@ -107,14 +131,14 @@ export class ProductListingPageComponent implements OnInit, AfterViewChecked {
    * @param productSearchResponseDto Product search response dto
    */
   clickListRow(productSearchResponseDto: ProductSearchResponseDto): void {
-    return
+    this.routingService.router.navigate([UrlConst.PATH_PRODUCT_REGISTERING, productSearchResponseDto.productCode]);
   }
 
   /**
    * Unselects product genre
    */
   unselectProductGenre(): void {
-    return
+    this.productGenre.setValue('');
   }
 
   // --------------------------------------------------------------------------------
@@ -124,10 +148,5 @@ export class ProductListingPageComponent implements OnInit, AfterViewChecked {
     const lang = this.accountService.getUser().userLanguage;
     this.translateService.setDefaultLang(lang);
     this.translateService.use(lang);
-  }
-
-  private loadData(): void {
-    this.productService.getGenres()
-      .subscribe((data) => (this.genres = data));
   }
 }
