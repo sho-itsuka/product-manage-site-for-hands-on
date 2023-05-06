@@ -3,6 +3,7 @@ import { LoadingService } from 'src/app/core/services/loading.service';
 import { RoutingService } from 'src/app/core/services/routing.service';
 import { TitleI18Service } from 'src/app/shared/services/title-i18.service';
 
+import { HttpParams } from '@angular/common/http';
 import { AfterViewChecked, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
@@ -148,5 +149,42 @@ export class ProductListingPageComponent implements OnInit, AfterViewChecked {
     const lang = this.accountService.getUser().userLanguage;
     this.translateService.setDefaultLang(lang);
     this.translateService.use(lang);
+  }
+
+  private loadData(): void {
+    this.productService.getGenres()
+      .subscribe((data) => (this.genres = data));
+  }
+
+  private createSearchParamsDto(): ProductListingSearchParamsDto {
+    const productListingSearchParamsDto: ProductListingSearchParamsDto = {
+      productName:  this.productName.value,
+      productCode:  this.productCode.value,
+      productGenre: this.productGenre.value,
+      endOfSale:    this.endOfSale.value,
+      pageSize:     this.paginator.pageSize,
+      pageIndex:    this.paginator.pageIndex
+    };
+    return productListingSearchParamsDto;
+  }
+
+  private createHttpParams(productListingSearchParamsDto: ProductListingSearchParamsDto): HttpParams {
+    const paramsOptions = { fromObject: productListingSearchParamsDto } as any;
+    const params        = new HttpParams(paramsOptions);
+    return params;
+  }
+
+  private clearSearchConditions(): void {
+    this.productName.setValue('');
+    this.productCode.setValue('');
+    this.productGenre.setValue('');
+    this.endOfSale.setValue(false);
+    this.paginator.pageSize  = this.initialPageSize;
+    this.paginator.pageIndex = 0;
+  }
+
+  private clearSearchResultList(): void {
+    this.productSearchResponseDtos = null;
+    this.resultsLength             = 0;
   }
 }
