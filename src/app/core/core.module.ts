@@ -8,12 +8,14 @@ import { ErrorMessagingComponent } from './components/error-messaging/error-mess
 import { LoadingComponent } from './components/loading/loading.component';
 import { YesNoDialogComponent } from './components/yes-no-dialog/yes-no-dialog.component';
 import { XhrInterceptor } from './interceptors/xhr.interceptor';
+import { FormattedNumberPipe } from './pipes/formatted-number.pipe';
 
 @NgModule({
   declarations: [
     LoadingComponent,
     ErrorMessagingComponent,
-    YesNoDialogComponent
+    YesNoDialogComponent,
+    FormattedNumberPipe
   ],
   imports: [
     CommonModule,
